@@ -1,0 +1,14 @@
+{
+  "name": "reinsman",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build:production": "cp .deploy/.env.production . && next build",
+    "build": "next build",
+    "dev": "next dev --port 3003 & yarn ts-watch",
+    "lint": "next lint",
+    "start": "next start",
+    "ts": "tsc --noEmit --incremental",
+    "ts-watch": "yarn ts --watch"
+  }
+}
