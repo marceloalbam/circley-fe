@@ -1,0 +1,59 @@
+{
+  "name": "web-app",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "format": "prettier --write \"**/*.{ts,tsx,md,mdx,js,json}\"",
+    "lint": "turbo run lint",
+    "prepare": "husky install",
+    "ts": "turbo run ts",
+    "wpro:update": "yarn -W add @wpro/eslint-config@^6 @wpro/magento@^6 @wpro/prismic@^6 @wpro/sitemap@^6 @wpro/stylelint-config@^6",
+    "circley:vercel": "cp .deploy/vercel.json apps/circley",
+    "tucker:vercel": "cp .deploy/vercel.json apps/tucker",
+    "reinsman:vercel": "cp .deploy/vercel.json apps/reinsman",
+    "highhorse:vercel": "cp .deploy/vercel.json apps/highhorse",
+    "vercel:production": "yarn circley:vercel && yarn tucker:vercel && yarn reinsman:vercel && yarn highhorse:vercel"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^2.9.10",
+    "@wpro/eslint-config": "^6",
+    "@wpro/magento": "^6.4.3",
+    "@wpro/prismic": "^6",
+    "@wpro/sitemap": "^6",
+    "@wpro/stylelint-config": "^6",
+    "@wpro/ui": "^6",
+    "html-react-parser": "^3.0.4",
+    "instagram-gallery": "^1.3.1",
+    "keen-slider": "^6.7.0",
+    "next-share": "^0.19.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.41.0",
+    "react-image-gallery": "^1.0.8",
+    "react-player": "^2.10.1",
+    "react-rater": "^6.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "eslint": "8.14.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
+    "next-transpile-modules": "9.0.0",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "packageManager": "yarn@1.22.19"
+}
