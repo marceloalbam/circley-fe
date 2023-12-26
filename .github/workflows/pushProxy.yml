@@ -1,0 +1,74 @@
+name: Push Proxy Repository
+
+on:
+  push:
+    branches:
+      - main
+      - production
+      - master
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Lint
+        run: yarn lint
+
+      - name: TypeScript Checks
+        run: yarn ts
+
+  push:
+    name: Push to proxy
+    runs-on: ubuntu-latest
+    needs: checks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Get current date
+        id: env
+        run: |
+          echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M:%S')"
+          echo "::set-output name=repositoryWitOwner::$(echo ${GITHUB_REPOSITORY})"
+          echo "::set-output name=repository::$(echo ${GITHUB_REPOSITORY#*/} | sed -r 's/.*/\L&/' | sed -r s+/+-+g)"
+          echo "::set-output name=currentBranch::$(echo ${GITHUB_REF#refs/heads/})"
+          if [[ ${GITHUB_REF#refs/heads/} == master || ${GITHUB_REF#refs/heads/} == main ]]; then proxyBranch=main ;else proxyBranch=production ;fi
+          echo "::set-output name=PROXYBRANCH::$(echo $proxyBranch)"
+
+      - name: Push
+        run: |
+          rm -rf .git
+          rm -rf .github
+          git clone  https://${{secrets.VISITUREDEVOPS_PAT}}@github.com/marceloalbam/${{ steps.env.outputs.repository }}.git __temp
+          mv __temp/.git . && rm -rf __temp
+          git checkout -B ${{steps.env.outputs.PROXYBRANCH}}
+          git config --global user.email "marce.alba.m@gmail.com"
+          git config --global user.name "marceloalbam"
+          if  git reset --mixed origin/${{steps.env.outputs.PROXYBRANCH}}  ; then 
+          echo "Creating branch"             
+          fi
+          if [ ${GITHUB_REF#refs/heads/} == production ] ; then 
+          yarn vercel:production           
+          fi
+          git add -A
+          git commit -m "Deployment - ${{steps.env.outputs.currentBranch}} ${{ steps.env.outputs.date }}" --allow-empty
+          git push origin ${{steps.env.outputs.PROXYBRANCH}}  -f --no-verify

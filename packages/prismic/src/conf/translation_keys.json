@@ -1,0 +1,33 @@
+{
+  "Main": {
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "Locale",
+        "placeholder": "en"
+      }
+    },
+    "translation_keys": {
+      "type": "Group",
+      "config": {
+        "fields": {
+          "key": {
+            "type": "Text",
+            "config": {
+              "label": "Key",
+              "placeholder": "customer.account.login.title"
+            }
+          },
+          "value": {
+            "type": "Text",
+            "config": {
+              "label": "Value",
+              "placeholder": "Sign In"
+            }
+          }
+        },
+        "label": "Translation Keys"
+      }
+    }
+  }
+}
