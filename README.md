@@ -4,7 +4,7 @@
 
 This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package manager. It includes the following packages/apps:
 
-### Apps a
+### Apps
 
 - `circley`: a [Next.js](https://nextjs.org) app
 - `highhorse`: a [Next.js](https://nextjs.org) app
