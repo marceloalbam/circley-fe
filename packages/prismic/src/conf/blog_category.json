@@ -1,0 +1,52 @@
+{
+  "Main": {
+    "title": {
+      "type": "Text",
+      "config": {
+        "label": "Title"
+      }
+    },
+    "uid": {
+      "type": "UID",
+      "config": {
+        "label": "Slug"
+      }
+    },
+    "description": {
+      "type": "Text",
+      "config": {
+        "label": "Description"
+      }
+    },
+    "image": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [],
+        "label": "Image"
+      }
+    },
+    "thumbnail": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [],
+        "label": "Thumbnail"
+      }
+    }
+  },
+  "Meta Data": {
+    "meta_title": {
+      "type": "Text",
+      "config": {
+        "label": "Title"
+      }
+    },
+    "meta_description": {
+      "type": "Text",
+      "config": {
+        "label": "Description"
+      }
+    }
+  }
+}
