@@ -53,3 +53,4 @@ jobs:
           echo "::set-output name=currentBranch::$(echo ${GITHUB_REF#refs/heads/})"
           if [[ ${GITHUB_REF#refs/heads/} == master || ${GITHUB_REF#refs/heads/} == main ]]; then proxyBranch=main ;else proxyBranch=production ;fi
           echo "::set-output name=PROXYBRANCH::$(echo $proxyBranch)"
+
