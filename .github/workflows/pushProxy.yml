@@ -58,7 +58,7 @@ jobs:
         run: |
           rm -rf .git
           rm -rf .github
-          git clone  https://github.com/${{secrets.VISITUREDEVOPS_PAT}}/${{ steps.env.outputs.repository }}.git __temp
+          git clone  https://${{secrets.VISITUREDEVOPS_PAT}}@github.com/marceloalbam/${{ steps.env.outputs.repository }}.git __temp
           mv __temp/.git . && rm -rf __temp
           git checkout -B ${{steps.env.outputs.PROXYBRANCH}}
           git config --global user.email "marce.alba.m@gmail.com"
@@ -71,6 +71,6 @@ jobs:
           fi
           git add -A
           git commit -m "Deployment - ${{steps.env.outputs.currentBranch}} ${{ steps.env.outputs.date }}" --allow-empty
-          git push origin ${{steps.env.outputs.PROXYBRANCH}}  -f --no-verify
+          git push origin ${{steps.env.outputs.PROXYBRANCH}} -f --no-verify
 
 
