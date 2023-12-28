@@ -54,3 +54,23 @@ jobs:
           if [[ ${GITHUB_REF#refs/heads/} == master || ${GITHUB_REF#refs/heads/} == main ]]; then proxyBranch=main ;else proxyBranch=production ;fi
           echo "::set-output name=PROXYBRANCH::$(echo $proxyBranch)"
 
+      - name: Push
+        run: |
+          rm -rf .git
+          rm -rf .github
+          git clone  https://github.com/${{secrets.VISITUREDEVOPS_PAT}}/${{ steps.env.outputs.repository }}.git __temp
+          mv __temp/.git . && rm -rf __temp
+          git checkout -B ${{steps.env.outputs.PROXYBRANCH}}
+          git config --global user.email "marce.alba.m@gmail.com"
+          git config --global user.name "marceloalbam"
+          if  git reset --mixed origin/${{steps.env.outputs.PROXYBRANCH}}  ; then 
+          echo "Creating branch"             
+          fi
+          if [ ${GITHUB_REF#refs/heads/} == production ] ; then 
+          yarn vercel:production           
+          fi
+          git add -A
+          git commit -m "Deployment - ${{steps.env.outputs.currentBranch}} ${{ steps.env.outputs.date }}" --allow-empty
+          git push origin ${{steps.env.outputs.PROXYBRANCH}}  -f --no-verify
+
+
