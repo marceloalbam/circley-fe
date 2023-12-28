@@ -1,4 +1,4 @@
-name: Checks
+name: SetNextChecks
 
 on:
   push:
@@ -23,5 +23,5 @@ jobs:
         with:
           node-version: 16.x
       
-      - run: apps/reinsman/yarn build
+      - run: yarn apps/reinsman/build
       
