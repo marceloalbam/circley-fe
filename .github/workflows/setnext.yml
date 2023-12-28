@@ -23,5 +23,6 @@ jobs:
         with:
           node-version: 16.x
       
-      - run: yarn apps/reinsman/build
+      - run: yarn build
+        working-directory: apps/reinsman/
       
