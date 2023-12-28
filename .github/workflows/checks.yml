@@ -22,7 +22,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-
+      
+      - run: apps/reinsman/yarn build
+      
       - run: yarn install --frozen-lockfile
 
       - name: TypeScript
