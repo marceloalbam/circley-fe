@@ -10,6 +10,7 @@ coverage
 
 # next.js
 apps/circley/.next/
+apps/tucker/.next/
 .vercel/
 out/
 build
