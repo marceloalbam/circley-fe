@@ -23,8 +23,6 @@ jobs:
         with:
           node-version: 16.x
       
-      - run: apps/reinsman/yarn build
-      
       - run: yarn install --frozen-lockfile
 
       - name: TypeScript
