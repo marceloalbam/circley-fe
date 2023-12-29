@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[610],{71057:function(n,e,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/customer/account/resetpassword",function(){return u(33453)}])},33453:function(n,e,u){"use strict";u.r(e);var s=u(3003);e.default=s.ResetPasswordScene}},function(n){n.O(0,[774,888,179],(function(){return e=71057,n(n.s=e);var e}));var e=n.O();_N_E=e}]);
