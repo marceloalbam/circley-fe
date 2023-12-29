@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig}  */
 const withTM = require('next-transpile-modules')([
   '@scope/shared',
   '@scope/prismic',
