@@ -9,8 +9,7 @@ node_modules
 coverage
 
 # next.js
-apps/circley/.next/
-apps/tucker/.next/
+.next/
 .vercel/
 out/
 build
