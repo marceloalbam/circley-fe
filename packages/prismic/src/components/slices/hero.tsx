@@ -44,10 +44,10 @@ export const Hero = ({ primary, items, carouselRootProps }: HeroProps) => {
       },
     },
     plugin: [
-      (sliderInstance) => {
+      (sliderinstance) => {
         !hasOnlyOneSlide &&
           autoplay &&
-          carouselAutoPlay(sliderInstance, speed ?? 3000)
+          carouselAutoPlay(sliderinstance, speed ?? 3000)
       },
     ],
   })

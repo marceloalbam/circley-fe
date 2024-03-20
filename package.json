@@ -21,6 +21,7 @@
     "vercel:production": "yarn circley:vercel && yarn tucker:vercel && yarn reinsman:vercel && yarn highhorse:vercel"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^4.0.0",
     "@hookform/resolvers": "^2.9.10",
     "@wpro/eslint-config": "^6",
     "@wpro/magento": "^6.4.3",

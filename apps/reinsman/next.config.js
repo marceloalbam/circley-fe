@@ -12,9 +12,8 @@ const nextConfig = {
     minimumCacheTTL: 3600 * 24 * 30,
     domains: [
       process.env.NEXT_PUBLIC_MAGENTO_URI.split('//')[1],
-      'images.prismic.io',
+      'circley.local',
       'local-circy-be-staging.visiture.cloud',
-      'local-reinsman-be-staging.visiture.cloud',
     ],
   },
   experimental: {

@@ -9,6 +9,7 @@ import { PWA } from '@wpro/magento/dist/core/components'
 import { theme, Layout, Fonts, Main } from '@scope/shared'
 
 export const App = ({ Component, pageProps }: AppProps) => {
+  
   return (
     <PWA pageProps={pageProps}>
       <ThemeProvider theme={theme}>

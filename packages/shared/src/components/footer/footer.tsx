@@ -1,21 +1,26 @@
 import { Flex, Box, Stack, Link, Heading, Text } from '@chakra-ui/react'
-import { useDocument } from '@wpro/prismic'
 import { EntityType, FooterType } from '@scope/prismic'
 import { SubscribeForm, MenuDesktop, MenuMobile } from './components'
 import { ImFacebook, ImInstagram } from 'react-icons/im'
 import { useCoreContext } from '@wpro/magento/dist/core/hooks'
+import { getSlug, getBlogPath } from '@wpro/prismic'
+import { useCmsPageData, useCmsBlockData } from '../../../src/hooks'
 
 export const Footer = () => {
-  const { document } = useDocument<FooterType>({
-    uid: EntityType.Footer,
-    types: [EntityType.Footer],
-  })
 
-  const { storeView } = useCoreContext()
+  let { storeView } = useCoreContext()
   const isReinsman = storeView === 'reinsman'
   const isHighHorse = storeView === 'highhorse'
   const isTucker = storeView === 'tucker'
+  if(storeView == 'default'){storeView = 'circley'}
 
+  const pathname = 'footer'//router.asPath
+  const identifier = getSlug(pathname)
+  const identifier_b = identifier+'-pwa-'+storeView
+
+  try {
+    const cmsBlockData = useCmsBlockData({identifier: identifier_b})
+    let bodys = cmsBlockData?.data?.body!;
   const {
     newsletter_text: newsletterText,
     social_media_text: socialMediaText,
@@ -23,7 +28,7 @@ export const Footer = () => {
     instagram_url: instagramUrl,
     copyright_text: copyrightText,
     body: menu,
-  } = document?.data ?? {}
+  } = bodys?.data! ?? {}
 
   return (
     <Box as="footer" bgColor="primary.50" p="24px" pt="40px">
@@ -128,4 +133,10 @@ export const Footer = () => {
       </Box>
     </Box>
   )
+} catch (e) {
+    return (<Box></Box>)
+  }
+}
+function reemplazarTexto(texto: string, buscar: string, reemplazo: string): string {
+  return texto.replace(new RegExp(buscar, 'g'), reemplazo);
 }

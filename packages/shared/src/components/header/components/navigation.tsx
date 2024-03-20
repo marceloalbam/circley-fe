@@ -14,7 +14,7 @@ export const Navigation = ({ menuItems, isHeaderCollapsed }: Props) => {
   const isReinsman = storeView === 'reinsman'
   const isHighHorse = storeView === 'highhorse'
   const isTucker = storeView === 'tucker'
-
+try{
   return (
     <Wrap
       justify="center"
@@ -64,4 +64,7 @@ export const Navigation = ({ menuItems, isHeaderCollapsed }: Props) => {
       })}
     </Wrap>
   )
+}catch(e){
+  return (<></>)
+}
 }

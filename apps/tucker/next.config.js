@@ -13,7 +13,7 @@ const nextConfig = {
     domains: [
       process.env.NEXT_PUBLIC_MAGENTO_URI.split('//')[1],
       'images.prismic.io',
-      'local-circy-be-staging.visiture.cloud',
+      'circley.local',
       'local-highhorse-be-staging.visiture.cloud',
       'local-tucker-be-staging.visiture.cloud',
     ],

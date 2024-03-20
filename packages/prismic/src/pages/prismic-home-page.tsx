@@ -1,23 +1,59 @@
 import { NextSeo } from 'next-seo'
 import { Box, VStack } from '@chakra-ui/react'
-import { useDocument } from '@wpro/prismic'
-import { EntityType, HomePageType } from '../types'
+import { EntityType, HomePageType, PageType, PrismicSlices } from '../types'
 import { SliceResolver } from '../components'
 import { useCoreContext } from '@wpro/magento/dist/core/hooks'
 
-export const HomePage = () => {
-  const { document } = useDocument<HomePageType>({
-    uid: 'homepage',
-    types: [EntityType.HomePage],
-  })
-  const { body } = document?.data ?? {}
+import { useRouter } from 'next/router'
+import { getSlug, getBlogPath } from '@wpro/prismic'
+import { PageLoading } from '@wpro/magento/dist/ui'
+import { NotFound } from '@wpro/magento/dist/modules/shared'
+import { useEntityResolver } from '../hooks'
+import { useCmsPageData, useCmsBlockData } from '../../../../packages/shared/src/hooks'
+interface cmsData {
+    title: string;
+    content: string;
+    meta_title: string;
+    meta_description: string;
+}
+interface cmsBlock {
+    identifier: string;
+    title: string;
+    content: string;
+}
 
-  const { storeView } = useCoreContext()
+export const HomePage = ({ data }: PageType) => {
+  let { storeView } = useCoreContext()
   const isReinsman = storeView === 'reinsman'
   const isHighHorse = storeView === 'highhorse'
   const isTucker = storeView === 'tucker'
-  const spacingForFirstSlice = { base: '30px', md: '30px' }
-  const spacingForSlice = { base: '40px', md: '80px' }
+  if(storeView == 'default'){storeView = 'circley'}
+
+  const router = useRouter()
+  const pathname = 'homepage'
+  //const pathname = router.asPath
+  const identifier = getSlug(pathname)
+  const identifier_b = identifier+'-pwa-'+storeView
+  
+  let title = ''
+  let document_1 = ''
+  let meta_title = ''
+  let meta_description = ''
+  
+  let title_b = ''
+  let content_b = ''
+  let meta_title_b = ''
+  let meta_description_b = ''
+  
+  try {
+    const cmsBlockData = useCmsBlockData({identifier: identifier_b})
+  
+    let bodys: PageType = cmsBlockData?.data?.body!;
+  
+    const { body } = bodys?.data! ?? {}
+  
+    const spacingForFirstSlice = { base: '30px', md: '30px' }
+    const spacingForSlice = { base: '40px', md: '80px' }
 
   return (
     <Box
@@ -43,8 +79,8 @@ export const HomePage = () => {
       }}
     >
       <NextSeo
-        title={document?.data.meta_title}
-        description={document?.data.meta_description}
+        title={meta_title_b}
+        description={meta_description_b}
       />
       {body?.map((slice, i) => (
         <VStack
@@ -58,4 +94,10 @@ export const HomePage = () => {
       ))}
     </Box>
   )
+  } catch (e) {
+    return (<Box></Box>)
+  }
+}
+function reemplazarTexto(texto: string, buscar: string, reemplazo: string): string {
+  return texto.replace(new RegExp(buscar, 'g'), reemplazo);
 }
