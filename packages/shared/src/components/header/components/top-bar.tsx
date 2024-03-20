@@ -31,11 +31,11 @@ export const TopBar = ({ topItems, isHeaderCollapsed }: Props) => {
       opacity: '0',
     },
     '&:hover': {
-      'span:first-child img': { opacity: '0' },
+      'span:first-of-type img': { opacity: '0' },
       'span:last-child img': { opacity: '1' },
     },
   }
-
+  try{
   return (
     <Box
       bg={
@@ -202,4 +202,7 @@ export const TopBar = ({ topItems, isHeaderCollapsed }: Props) => {
       </Box>
     </Box>
   )
+}catch(e){
+  return (<></>)
+}
 }

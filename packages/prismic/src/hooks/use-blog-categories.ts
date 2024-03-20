@@ -18,6 +18,7 @@ export const useBlogCategories = () => {
 }
 
 export const getBlogCategoriesService = async () => {
+  
   return Promise.all([
     prismicClient.query(
       Prismic.Predicates.at('document.type', EntityType.BlogCategory),

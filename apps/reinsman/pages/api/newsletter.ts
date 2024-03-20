@@ -1,4 +1,5 @@
 import type { NextApiHandler } from 'next'
+import { useCoreContext } from '@wpro/magento/dist/core/hooks'
 
 export const handler: NextApiHandler = async (req, res) => {
   const body = req.body
