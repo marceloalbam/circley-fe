@@ -12,7 +12,8 @@ import {
   useDisclosure,
   Text,
 } from '@chakra-ui/react'
-import { useDocument } from '@wpro/prismic'
+//import { useDocument } from '@wpro/prismic'
+import { TopBarItem } from '@scope/prismic'
 import { EntityType, Navigation as HeaderType } from '@scope/prismic'
 import { ImCart } from 'react-icons/im'
 import { Search2Icon } from '@chakra-ui/icons'
@@ -21,23 +22,26 @@ import { Navigation } from './components/navigation'
 import { SearchBox } from './components/search-box'
 import { DrawerMenu } from '../drawer-menu'
 import { useCoreContext } from '@wpro/magento/dist/core/hooks'
+import { getSlug, getBlogPath } from '@wpro/prismic'
+import { useCmsPageData, useCmsBlockData } from '../../../src/hooks'
+import { PageType } from '../../../../prismic/src/types'
 
 export const Header = () => {
   const intl = useIntl()
   const path = usePath()
   const { isOpen, onClose, onToggle } = useDisclosure()
   const { count } = useCart()
-  const { storeView } = useCoreContext()
+
+  let { storeView } = useCoreContext()
   const isReinsman = storeView === 'reinsman'
   const isHighHorse = storeView === 'highhorse'
   const isTucker = storeView === 'tucker'
+  if(storeView == 'default'){storeView = 'circley'}
 
-  const { document } = useDocument<HeaderType>({
-    uid: 'header',
-    types: [EntityType.Nav],
-  })
-  const topItems = document?.data.top_bar
-  const menuItems = document?.data.nav_bar
+ // const router = useRouter()
+  const pathname = 'header'//router.asPath
+  const identifier = getSlug(pathname)
+  const identifier_b = identifier+'-pwa-'+storeView
 
   const [windowScrolled, setWindowScrolled] = useState(false)
 
@@ -55,6 +59,48 @@ export const Header = () => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+  /*
+  const { storeView } = useCoreContext()
+  const isReinsman = storeView === 'reinsman'
+  const isHighHorse = storeView === 'highhorse'
+  const isTucker = storeView === 'tucker'
+
+  const { document } = useDocument<HeaderType>({
+    uid: 'header',
+    types: [EntityType.Nav],
+  })
+  console.log("HEADER....");
+  console.log(document)
+  */
+  //let document = ''
+  try {
+    const cmsBlockData = useCmsBlockData({identifier: identifier_b})
+    
+  /*  
+    // / \/
+    // " _c#d_
+    // ' _c%d_
+    //document = JSON.parse(JSON.stringify(cmsBlockData));
+    document = cmsBlockData?.data?.body;
+    
+    const textoOriginal = document
+    let textoModificado = reemplazarTexto(textoOriginal, "\/", "/");
+    textoModificado = reemplazarTexto(textoModificado, "_c#d_", '"');
+    textoModificado = reemplazarTexto(textoModificado, "_c%d_", "'");
+
+    document = JSON.parse(textoModificado);
+    
+    //const { body } = document?.data ?? {}
+*/
+    const bodys: HeaderType = cmsBlockData?.data.body;
+
+    const topItems = bodys?.data.top_bar ?? {}
+    const menuItems = bodys?.data.nav_bar ?? {}
+
+
+  //const topItems = document?.data.top_bar
+  //const menuItems = document?.data.nav_bar
+
 
   return (
     <Box pos="relative" zIndex="3">
@@ -277,6 +323,12 @@ export const Header = () => {
       </Box>
     </Box>
   )
+  } catch (e) {
+    // Do something with the error
+    
+    //console.log(e);
+    return (<Box></Box>)
+  }
 }
 
 const getIsHeaderCollapsed = (params: { windowScrolled: boolean }) => {
@@ -286,4 +338,7 @@ const getIsHeaderCollapsed = (params: { windowScrolled: boolean }) => {
   }
 
   return false
+}
+function reemplazarTexto(texto: string, buscar: string, reemplazo: string): string {
+  return texto.replace(new RegExp(buscar, 'g'), reemplazo);
 }

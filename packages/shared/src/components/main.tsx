@@ -5,7 +5,7 @@ import { LoggedOutModal } from '@wpro/magento/dist/modules/auth'
 import { ErrorBoundary, Maintenance } from '@wpro/magento/dist/modules/shared'
 import { useSharedCart } from '../hooks'
 import { EntityType, PageType, PrismicPage } from '@scope/prismic'
-import { useDocument } from '@wpro/prismic'
+//import { useDocument } from '@wpro/prismic'
 
 interface Props {
   children: JSX.Element
@@ -15,10 +15,10 @@ interface Props {
 export const Main = ({ children, layout: LayoutComponent }: Props) => {
   const { onError } = useCoreContext()
   const { isLoading, storeConfigError } = useMain()
-  const { document: maintenancePageDocument } = useDocument<PageType>({
+  /*const { document: maintenancePageDocument } = useDocument<PageType>({
     uid: EntityType.MaintenancePage,
     types: [EntityType.Page],
-  })
+  })*/
   useSharedCart()
   return (
     <ErrorBoundary onError={onError} layout={LayoutComponent}>
@@ -29,13 +29,7 @@ export const Main = ({ children, layout: LayoutComponent }: Props) => {
           </Head>
         )}
         {storeConfigError ? (
-          <>
-            {maintenancePageDocument?.id ? (
-              <PrismicPage {...(maintenancePageDocument as any)} />
-            ) : (
-              <Maintenance />
-            )}
-          </>
+          <></>
         ) : isLoading ? (
           <LayoutComponent>
             <PageLoading />

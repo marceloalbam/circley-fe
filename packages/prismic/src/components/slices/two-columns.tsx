@@ -14,8 +14,6 @@ import {
 } from '@chakra-ui/react'
 import { TwoColumnsSlice } from '../../types'
 import { useCoreContext } from '@wpro/magento/dist/core/hooks'
-
-/* New Slice Name: Double Image with Text */
 export const TwoColumns = ({ primary }: TwoColumnsSlice) => {
   const {
     image,
@@ -33,7 +31,6 @@ export const TwoColumns = ({ primary }: TwoColumnsSlice) => {
     cta_text_color: ctaTextColor,
   } = primary
   const { storeView } = useCoreContext()
-
   return (
     <Box
       w="full"

@@ -1,26 +1,73 @@
 import Link from 'next/link'
-import { useDocument } from '@wpro/prismic'
+//import { useDocument } from '@wpro/prismic'
 import { EntityType, MegaMenu as MegaMenuType, MenuItem } from '@scope/prismic'
 import { Box, Link as ChakraLink, SimpleGrid } from '@chakra-ui/react'
 import { useCoreContext } from '@wpro/magento/dist/core/hooks'
-
+import { getSlug, getBlogPath } from '@wpro/prismic'
+import { useCmsPageData, useCmsBlockData } from '../../../../src/hooks'
 interface Props {
   uid: string
   isHeaderCollapsed?: boolean
 }
 
 export const MegaMenu = ({ uid, isHeaderCollapsed }: Props) => {
+/*
   const { document } = useDocument<MegaMenuType>({
     uid,
     types: [EntityType.MegaMenu],
   })
+*/
+  //console.log("DRAER MENU")
+  //console.log(document)
+
+  let { storeView } = useCoreContext()
+  const isReinsman = storeView === 'reinsman'
+  const isHighHorse = storeView === 'highhorse'
+  const isTucker = storeView === 'tucker'
+  if(storeView == 'default'){storeView = 'circley'}
+
+ // const router = useRouter()
+  const pathname = 'mega-'//router.asPath
+  const identifier = getSlug(pathname)
+  const identifier_b = identifier+uid+'-pwa-'+storeView
+
+  //let document = ''
+  try {
+    const cmsBlockData = useCmsBlockData({identifier: identifier_b})
+    /*
+    // / \/
+    // " _c#d_
+    // ' _c%d_
+    //document = JSON.parse(JSON.stringify(cmsBlockData));
+    document = cmsBlockData?.data?.body;
+    
+    const textoOriginal = document
+    let textoModificado = reemplazarTexto(textoOriginal, "\/", "/");
+    textoModificado = reemplazarTexto(textoModificado, "_c#d_", '"');
+    textoModificado = reemplazarTexto(textoModificado, "_c%d_", "'");
+
+    document = JSON.parse(textoModificado);
+  //console.log("DRAER MENU--->>>>>> "+identifier_b)
+  //console.log(document)
+  */
+    let bodys: MegaMenuType = cmsBlockData?.data?.body!;
+
+    //const { topItems } = bodys?.data?.top_bar! ?? {}
+    //const { menuItems } = bodys?.data?.nav_bar! ?? {}
+    const {
+    column_1: col1,
+    column_2: col2,
+    column_3: col3,
+    column_4: col4,
+  } = bodys?.data ?? {}
+  /*
   const {
     column_1: col1,
     column_2: col2,
     column_3: col3,
     column_4: col4,
   } = document?.data ?? {}
-
+*/
   return (
     <Box
       className="mega-menu"
@@ -46,6 +93,12 @@ export const MegaMenu = ({ uid, isHeaderCollapsed }: Props) => {
       </SimpleGrid>
     </Box>
   )
+  } catch (e) {
+    // Do something with the error
+    
+    //console.log(e);
+    return (<Box></Box>)
+  }
 }
 
 interface LinkListProps {
@@ -102,4 +155,7 @@ const LinkList = ({ col }: LinkListProps) => {
       })}
     </Box>
   )
+}
+function reemplazarTexto(texto: string, buscar: string, reemplazo: string): string {
+  return texto.replace(new RegExp(buscar, 'g'), reemplazo);
 }

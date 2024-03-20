@@ -114,6 +114,7 @@ export const getSerialNumberProductService = async (
       }
     )
     .toPromise()
+    
   return query?.data
 }
 
