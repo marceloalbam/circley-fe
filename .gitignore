@@ -36,6 +36,14 @@ yarn-error.log*
 
 *.env
 *.env.production
+apps/circley/.env
+apps/circley/.deploy/.env.production
+apps/highhorse/.env
+apps/highhorse/.deploy/.env.production
+apps/reinsman/.env
+apps/reinsman/.deploy/.env.production
+apps/tucker/.env
+apps/tucker/.deploy/.env.production
 
 # turbo
 .turbo
